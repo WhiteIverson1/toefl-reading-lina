@@ -1,0 +1,1615 @@
+:root {
+  --toefl-header-bg: #0f3d4c;
+  --toefl-header-accent: #16566b;
+  --toefl-primary: #0d6e8a;
+  --toefl-primary-hover: #095369;
+  --bg-page: #f4f6f9;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --border-light: #e2e8f0;
+  --highlight-bg: #fef08a;
+  --highlight-active: #fde047;
+  --correct-bg: #dcfce7;
+  --correct-border: #16a34a;
+  --correct-text: #15803d;
+  --wrong-bg: #fee2e2;
+  --wrong-border: #dc2626;
+  --wrong-text: #b91c1c;
+  --selected-bg: #e0f2fe;
+  --selected-border: #0284c7;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  height: 100vh;
+  height: 100dvh; /* mobile browsers: exclude the URL bar */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ================= TOP HEADER (TOEFL iBT Style) ================= */
+.top-header {
+  background: var(--toefl-header-bg);
+  color: #ffffff;
+  height: 60px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0; /* let a long title shrink instead of pushing the buttons */
+}
+
+.brand-logo {
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #ffffff;
+  color: var(--toefl-header-bg);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Long / short button labels: short ones show on phones only */
+.lbl-short {
+  display: none;
+}
+
+.all-mode-hint {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.timer-badge {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-header {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-header:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.btn-header-primary {
+  background: #22c55e;
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+.btn-header-primary:hover:not(:disabled) {
+  background: #16a34a;
+}
+
+.btn-primary {
+  background: var(--toefl-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--toefl-primary-hover);
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.btn-danger-outline {
+  background: #ffffff;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+/* ================= SUB-TOOLBAR (Question Navigation Bar) ================= */
+.sub-toolbar {
+  background: #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
+  height: 46px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sub-toolbar-left,
+.sub-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.passage-indicator {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--toefl-header-bg);
+}
+
+.q-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.q-pill {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.q-pill:hover {
+  border-color: var(--toefl-primary);
+}
+
+.q-pill.active {
+  background: var(--toefl-header-bg);
+  color: #ffffff;
+  border-color: var(--toefl-header-bg);
+}
+
+.q-pill.answered:not(.active) {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+.q-pill.correct:not(.active) {
+  background: var(--correct-bg);
+  border-color: var(--correct-border);
+  color: var(--correct-text);
+}
+
+.q-pill.wrong:not(.active) {
+  background: var(--wrong-bg);
+  border-color: var(--wrong-border);
+  color: var(--wrong-text);
+}
+
+.q-pill.flagged::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  background: #f59e0b;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+}
+
+/* ================= DASHBOARD VIEW ================= */
+.dashboard-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 60px;
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.stats-banner {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.stats-group {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--toefl-header-bg);
+}
+
+.passage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: 18px;
+}
+
+.passage-card {
+  background: var(--bg-card);
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.passage-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #94a3b8;
+}
+
+.card-top {
+  margin-bottom: 16px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.passage-num-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--toefl-primary);
+  background: #e0f2fe;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.topic-tag {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.card-excerpt {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status-badge {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.status-unstarted {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.status-progress {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* ================= SPLIT-SCREEN WORKSPACE (TOEFL Reader) ================= */
+.split-workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 54% 46%;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.passage-pane {
+  border-right: 2px solid var(--border-color);
+  overflow-y: auto;
+  padding: 32px 40px 64px;
+  background: #ffffff;
+}
+
+.passage-paper {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.passage-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.passage-paragraph {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.82;
+  color: #1e293b;
+  margin-bottom: 22px;
+  text-align: left;
+  position: relative;
+  padding-left: 14px;
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.passage-paragraph.active-para {
+  border-left-color: var(--toefl-primary);
+}
+
+.para-marker {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0d6e8a;
+  background: #e0f2fe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Target vocabulary or phrase highlight.
+   No padding: inactive highlights must read as plain text. The active look
+   uses box-shadow, which paints outside the box without moving any text. */
+.passage-highlight {
+  border-radius: 2px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.passage-highlight.active {
+  background-color: var(--highlight-active);
+  box-shadow: 0 0 0 2px var(--highlight-active), 0 0 0 3px #eab308;
+}
+
+/* Insertion Squares ■ */
+.insert-square {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  background: #f1f5f9;
+  border: 1px solid #94a3b8;
+  padding: 0 6px;
+  margin: 0 3px;
+  border-radius: 4px;
+  vertical-align: baseline;
+}
+
+.insert-square.interactive {
+  cursor: pointer;
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+.insert-square.interactive:hover {
+  background: #bae6fd;
+  transform: scale(1.06);
+}
+
+.inserted-sentence-preview {
+  background: #fef08a;
+  border: 1.5px solid #ca8a04;
+  color: #0f172a;
+  font-weight: 600;
+  padding: 2px 6px;
+  margin: 0 4px;
+  border-radius: 4px;
+}
+
+.inserted-sentence-preview.correct-insert {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #14532d;
+}
+
+/* ================= RIGHT QUESTION PANE ================= */
+.question-pane {
+  overflow-y: auto;
+  padding: 28px 34px 64px;
+  background: #f8fafc;
+}
+
+.score-summary-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.score-big {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--toefl-header-bg);
+}
+
+.question-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.q-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.q-number-badge {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toefl-header-bg);
+  background: #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+
+.q-type-tag {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.q-prompt {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.insert-sentence-box {
+  background: #f1f5f9;
+  border-left: 4px solid var(--toefl-primary);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #0f172a;
+  border-radius: 0 6px 6px 0;
+}
+
+.insert-tip {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.option-item:hover:not(.locked) {
+  border-color: var(--toefl-primary);
+  background: #f8fafc;
+}
+
+.option-item.selected {
+  background: var(--selected-bg);
+  border-color: var(--selected-border);
+}
+
+.option-item.correct-answer {
+  background: var(--correct-bg);
+  border-color: var(--correct-border);
+}
+
+.option-item.wrong-answer {
+  background: var(--wrong-bg);
+  border-color: var(--wrong-border);
+}
+
+.option-letter {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  background: #ffffff;
+}
+
+.option-item.selected .option-letter {
+  background: var(--selected-border);
+  border-color: var(--selected-border);
+  color: #ffffff;
+}
+
+.option-item.correct-answer .option-letter {
+  background: var(--correct-border);
+  border-color: var(--correct-border);
+  color: #ffffff;
+}
+
+.option-item.wrong-answer .option-letter {
+  background: var(--wrong-border);
+  border-color: var(--wrong-border);
+  color: #ffffff;
+}
+
+.option-text {
+  font-size: 15px;
+  color: #1e293b;
+  line-height: 1.45;
+  flex: 1;
+}
+
+/* Explanation Box */
+.explanation-box {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.explanation-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.verdict-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12.5px;
+}
+
+.verdict-correct {
+  background: var(--correct-bg);
+  color: var(--correct-text);
+}
+
+.verdict-wrong {
+  background: var(--wrong-bg);
+  color: var(--wrong-text);
+}
+
+.q-bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+/* Responsive fallback for smaller tablets/screens */
+@media (max-width: 960px) {
+  .split-workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: 48% 52%;
+  }
+  .passage-pane {
+    border-right: none;
+    border-bottom: 2px solid var(--border-color);
+    padding: 20px;
+  }
+  .question-pane {
+    padding: 20px;
+  }
+}
+
+/* ================= v2 COMPONENTS ================= */
+.btn-sm {
+  padding: 4px 12px;
+  font-size: 12.5px;
+}
+
+.btn-submit {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12.5px;
+  margin-left: 8px;
+}
+
+.count-dot {
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0 6px;
+  line-height: 18px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.mode-badge {
+  flex-shrink: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #e2f3f7;
+}
+
+.mode-badge.practice {
+  background: #fbbf24;
+  color: #3b2a00;
+}
+
+/* timer states */
+.timer-badge {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.timer-target {
+  opacity: 0.65;
+  margin-left: 2px;
+}
+
+.timer-badge.warn {
+  background: #fbbf24;
+  color: #3b2a00;
+}
+
+.timer-badge.over {
+  background: #ef4444;
+  color: #ffffff;
+  animation: timer-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  50% {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.35);
+  }
+}
+
+/* settings bar on dashboard */
+.settings-bar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.setting-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--toefl-header-bg);
+  min-width: 88px;
+}
+
+.setting-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.segmented {
+  display: inline-flex;
+  background: #eef2f6;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.seg-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.seg-btn.on {
+  background: #ffffff;
+  color: var(--toefl-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.segmented.big .seg-btn {
+  padding: 8px 18px;
+  font-size: 14px;
+}
+
+/* chips */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.chip {
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip.on {
+  background: var(--toefl-primary);
+  border-color: var(--toefl-primary);
+  color: #ffffff;
+}
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-count {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.card-level {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #d97706;
+  letter-spacing: 1px;
+}
+
+.card-level .level-off {
+  color: #e2e8f0;
+}
+
+.card-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--toefl-primary);
+}
+
+.dash-footer {
+  margin-top: 28px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-muted);
+  padding: 48px 16px;
+  font-size: 14px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: 10px;
+}
+
+/* question card additions */
+.q-card-header {
+  gap: 8px;
+}
+
+.q-type-tag {
+  flex: 1;
+  text-align: right;
+}
+
+.flag-btn {
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.flag-btn.on {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #b45309;
+}
+
+.q-pill.current:not(.correct):not(.wrong) {
+  border-color: var(--toefl-header-bg);
+  box-shadow: 0 0 0 1px var(--toefl-header-bg);
+}
+
+.explanation-header {
+  flex-wrap: wrap;
+}
+
+.btn-evidence {
+  margin-left: auto;
+  background: #e7f6f2;
+  color: #0f766e;
+  border: 1px solid #99d5c9;
+  padding: 3px 10px;
+  font-size: 12.5px;
+}
+
+.btn-evidence:hover {
+  background: #d1efe8;
+}
+
+.expl-line {
+  margin-top: 4px;
+}
+
+.expl-label {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--toefl-primary);
+  background: #e0f2fe;
+  border-radius: 4px;
+  padding: 0 6px;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+.inserted-sentence-preview.wrong-insert {
+  background: var(--wrong-bg);
+  border-color: var(--wrong-border);
+}
+
+/* evidence highlight in passage */
+.evidence-mark {
+  background: #d7f2ea;
+  box-shadow: inset 0 -2px 0 #2a9d8f;
+  border-radius: 2px;
+}
+
+.evidence-mark.flash {
+  animation: evidence-flash 1.2s ease-out 1;
+}
+
+@keyframes evidence-flash {
+  0% {
+    background: #8fdcc7;
+  }
+  100% {
+    background: #d7f2ea;
+  }
+}
+
+.wordlist {
+  margin-top: 28px;
+  padding: 16px 18px;
+  background: #f8fafc;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.wordlist-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--toefl-header-bg);
+}
+
+.wordlist ul {
+  padding-left: 18px;
+  display: grid;
+  gap: 2px;
+}
+
+/* score card */
+.score-label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.score-pct {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+.score-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.time-over {
+  color: var(--wrong-text);
+  font-weight: 600;
+}
+
+.time-ok {
+  color: var(--correct-text);
+  font-weight: 600;
+}
+
+.score-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* mistake book */
+.mistake-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.mistake-head + .chip-row {
+  margin-bottom: 16px;
+}
+
+.mistake-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mistake-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mistake-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  min-width: 0;
+}
+
+.type-chip {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c3aed;
+  background: #f3e8ff;
+  border-radius: 4px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+.mistake-passage-title {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mistake-prompt {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.mistake-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mistake-footer .spacer {
+  flex: 1;
+}
+
+.status-wrong {
+  background: var(--wrong-bg);
+  color: var(--wrong-text);
+}
+
+.redo-source {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60vw;
+}
+
+.redo-progress {
+  width: 160px;
+  height: 6px;
+  background: #cbd5e1;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.redo-progress span {
+  display: block;
+  height: 100%;
+  background: var(--toefl-primary);
+  transition: width 0.3s ease;
+}
+
+.redo-extra {
+  margin-top: 12px;
+}
+
+.redo-summary {
+  max-width: 520px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ================= PHONES ================= */
+@media (max-width: 720px) {
+  .lbl-full {
+    display: none;
+  }
+  .lbl-short {
+    display: inline;
+  }
+
+  .top-header {
+    height: 52px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+  .brand-area {
+    gap: 10px;
+    flex: 1;
+  }
+  .brand-logo {
+    font-size: 12px;
+    padding: 3px 7px;
+  }
+  .brand-title {
+    font-size: 15px;
+  }
+  .header-controls {
+    gap: 6px;
+  }
+  .btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .timer-badge {
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+
+  .sub-toolbar {
+    height: 44px;
+    padding: 0 12px;
+  }
+  .sub-toolbar-left,
+  .sub-toolbar-right {
+    gap: 8px;
+  }
+  /* The question card already has prev/next at the bottom */
+  .passage-indicator,
+  #btn-prev-q,
+  #btn-next-q,
+  .all-mode-hint {
+    display: none;
+  }
+  .q-pill {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dashboard-container {
+    padding: 16px 14px 40px;
+  }
+  .stats-banner {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .stats-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+    width: 100%;
+  }
+  .stat-value {
+    font-size: 18px;
+  }
+  .passage-grid {
+    gap: 12px;
+  }
+  .passage-card {
+    padding: 16px;
+  }
+
+  .split-workspace {
+    grid-template-rows: 45% 55%;
+  }
+  .passage-pane {
+    padding: 16px 16px 32px;
+  }
+  .passage-heading {
+    font-size: 19px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+  .passage-paragraph {
+    font-size: 16px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    padding-left: 10px;
+  }
+  .question-pane {
+    padding: 14px 12px 40px;
+  }
+  .question-card {
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .q-card-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .q-prompt {
+    font-size: 15px;
+  }
+  .option-item {
+    padding: 11px 12px;
+  }
+  .score-summary-card {
+    padding: 14px 16px;
+  }
+  .score-big {
+    font-size: 20px;
+  }
+}
+
+#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .dash-title {
+    display: none;
+  }
+  .settings-bar {
+    padding: 12px 14px;
+  }
+  .setting-label {
+    min-width: 0;
+    width: 100%;
+  }
+  .setting-hint {
+    width: 100%;
+  }
+  .seg-btn {
+    padding: 5px 10px;
+  }
+  .flag-text {
+    display: none;
+  }
+  .q-type-tag {
+    text-align: left;
+  }
+  .btn-evidence {
+    margin-left: 0;
+  }
+  .mistake-item {
+    padding: 14px;
+  }
+  .redo-progress {
+    width: 70px;
+  }
+  .redo-source {
+    max-width: 62vw;
+    font-size: 13px;
+  }
+  .mode-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+  .stats-banner .stat-value {
+    font-size: 17px;
+  }
+}
+
+.mistake-insert {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--toefl-primary);
+  padding: 2px 0 2px 10px;
+  margin: -4px 0 10px;
+}
+
+@media (max-width: 720px) {
+  .sub-toolbar .passage-indicator.redo-source {
+    display: inline;
+  }
+}
+
+/* in-page confirm dialog */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.confirm-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 22px 22px 18px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+.confirm-msg {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ================= DASHBOARD TABS + TYPE DRILLS ================= */
+.dash-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 18px;
+}
+
+.dash-tab {
+  border: none;
+  background: none;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.dash-tab:hover {
+  color: var(--toefl-header-bg);
+}
+
+.dash-tab.on {
+  color: var(--toefl-primary);
+  border-bottom-color: var(--toefl-primary);
+}
+
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+}
+
+.type-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.type-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.type-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.type-en {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.type-name {
+  flex-shrink: 0;
+}
+
+.type-total {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--toefl-primary);
+  background: #e0f2fe;
+  border-radius: 999px;
+  padding: 1px 10px;
+}
+
+.type-tip {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.type-progress {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.type-progress span {
+  display: block;
+  height: 100%;
+  background: var(--toefl-primary);
+}
+
+.type-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.type-acc {
+  font-weight: 700;
+}
+
+.type-acc.acc-good {
+  color: var(--correct-text);
+}
+
+.type-acc.acc-mid {
+  color: #b45309;
+}
+
+.type-acc.acc-low {
+  color: var(--wrong-text);
+}
+
+.type-start {
+  align-self: stretch;
+}
+
+@media (max-width: 720px) {
+  .dash-tabs {
+    margin-bottom: 14px;
+  }
+  .dash-tab {
+    flex: 1;
+    padding: 10px 8px;
+  }
+  .type-card {
+    padding: 16px;
+  }
+}
